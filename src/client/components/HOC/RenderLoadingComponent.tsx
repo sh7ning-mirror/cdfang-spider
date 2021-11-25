@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import * as React from 'react';
+import React from 'react';
 import Loading from '../Loading';
 import { AppContext } from '../../context/appContext';
 
@@ -7,7 +7,7 @@ const { useContext } = React;
 
 export const RenderLoadingComponent = (
   WrapperedComponent: React.FunctionComponent<any>,
-  LoadingHeight: string = '300px'
+  LoadingHeight = '300px'
 ) => {
   function Temp(props: any) {
     const { isLoading } = useContext(AppContext);

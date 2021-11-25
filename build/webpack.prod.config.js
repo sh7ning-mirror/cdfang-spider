@@ -1,13 +1,8 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
 const path = require('path');
-const webpack = require('webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const WorkboxPlugin = require('workbox-webpack-plugin')
-const merge = require('webpack-merge');
-const {
-  default: WebpackDeepScopeAnalysisPlugin
-} = require('webpack-deep-scope-plugin');
+const { merge } = require('webpack-merge');
 const QiniuUploadPlugin = require('qiniu-upload-plugin');
 const qiniuConfig = require('./qiniu.config');
 const baseConfig = require('./webpack.base.config');
@@ -17,7 +12,7 @@ const prodConfig = {
   output: {
     publicPath: qiniuConfig.publicPath,
     path: path.resolve('./dist/client'),
-    filename: 'cdfang-spider-[name]-[contenthash:8].js'
+    filename: 'cdfang-spider-[name]-[contenthash].js'
   },
   module: {
     rules: [
@@ -30,7 +25,9 @@ const prodConfig = {
           {
             loader: 'less-loader',
             options: {
-              javascriptEnabled: true
+              lessOptions:{
+                javascriptEnabled: true
+              }
             }
           }
         ]
@@ -39,11 +36,8 @@ const prodConfig = {
   },
   plugins: [
     new MiniCssExtractPlugin({
-      filename: 'cdfang-spider-[name].[hash:8].css'
+      filename: 'cdfang-spider-[name].[contenthash].css'
     }),
-    new WebpackDeepScopeAnalysisPlugin(),
-    // 开启 scope hosting，production 默认是开启状态
-    // new webpack.optimize.ModuleConcatenationPlugin(),
     new HtmlWebpackPlugin({
       template: './build/template/index.ejs',
       favicon: './build/template/favicon.ico',
@@ -60,7 +54,6 @@ const prodConfig = {
     new WorkboxPlugin.GenerateSW({
       clientsClaim: true, // 让浏览器立即 servece worker 被接管
       skipWaiting: true,  // 更新 sw 文件后，立即插队到最前面
-      importWorkboxFrom: 'cdn',
       include: [/\.js$/, /\.css$/, /\.ico$/],
     }),
   ],

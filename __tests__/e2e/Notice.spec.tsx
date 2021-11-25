@@ -1,32 +1,31 @@
-import * as React from 'react';
-
-import { mount } from 'enzyme';
-import { GlobalWithFetchMock } from 'jest-fetch-mock';
+import React from 'react';
+import '@testing-library/jest-dom/extend-expect';
+import {
+  render,
+  RenderResult,
+  fireEvent,
+  waitFor,
+} from '@testing-library/react';
 import Notice from '../../src/client/components/Notice';
 
-const customGlobal: GlobalWithFetchMock = global as GlobalWithFetchMock;
-
-const setup = () => {
-  const wrapper = mount(<Notice />);
-  return {
-    wrapper
-  };
-};
-
+let wrapper: RenderResult;
 describe('Notice 组件', () => {
-  const { wrapper } = setup();
-  const subtree = wrapper.render();
-
-  it('是否渲染成功？', () => {
-    expect(subtree.hasClass('notice-icon')).toBe(true);
-    expect(subtree.find('svg').length).toBe(1);
+  beforeEach(() => {
+    wrapper = render(<Notice />);
   });
 
-  it('点击获取消息', () => {
-    customGlobal.fetch.mockResponseOnce(
-      JSON.stringify({ data: '12345', successArray: [1, 2, 3] })
-    );
-    wrapper.find('Icon').simulate('click');
-    expect(subtree.hasClass('notice-icon')).toBe(true);
+  it('是否渲染成功？', () => {
+    expect(wrapper.container.querySelector('.notice-icon')).toBeInTheDocument();
+    expect(wrapper.container.querySelector('svg')).toBeInTheDocument();
+  });
+
+  it('点击获取消息', async () => {
+    fireEvent.click(wrapper.container);
+    await waitFor(() => {
+      // todo: 模拟 ajax
+      expect(
+        wrapper.container.querySelector('.notice-icon')
+      ).toBeInTheDocument();
+    });
   });
 });

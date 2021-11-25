@@ -4,7 +4,6 @@ import fs from 'fs';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import path from "path";
 import houseModel from '../models/houseModel';
-import initGraphQL from './graphql';
 import spider from '../utils/spiderHelper';
 
 const router = new Router();
@@ -37,6 +36,7 @@ router
             beginTime: '2019-03-22 09:00:00',
             endTime: '2019-03-24 18:00:00',
             status: '正在报名',
+            price:0,
             __v: 0
           }
         ];
@@ -56,6 +56,13 @@ router
       ctx.body = result;
     }
   )
+  .get(
+    '/initSpiderPrice',
+    async (ctx): Promise<void> => {
+      const result = await spider.initSpiderPrice();
+      ctx.body = result;
+    }
+  )
   // 支持 browserRouter
   .get(/\/20[1-9][0-9]/, ctx => {
     const file = fs.readFileSync(path.join('client/index.html'));
@@ -66,6 +73,5 @@ router
 export default {
   init(app: Koa): void {
     app.use(router.routes()).use(router.allowedMethods());
-    initGraphQL(app);
   }
 };

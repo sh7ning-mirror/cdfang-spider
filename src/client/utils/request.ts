@@ -11,7 +11,7 @@ interface Ipvs {
 
 const { getGraphqlClient } = config;
 
-export function requestData(year: string, callback: Function): void {
+export function requestData(year: string, callback: (...args: any[]) => void): void {
   const yearParam = year === 'home' ? '0' : year;
 
   getGraphqlClient()
@@ -26,6 +26,7 @@ export function requestData(year: string, callback: Function): void {
             beginTime
             endTime
             status
+            price
           }
         }
       `
@@ -35,7 +36,7 @@ export function requestData(year: string, callback: Function): void {
     });
 }
 
-export function requestPvs(callback: Function): void {
+export function requestPvs(callback: (...args: any[]) => void): void {
   getGraphqlClient()
     .query<Ipvs>({
       query: gql`

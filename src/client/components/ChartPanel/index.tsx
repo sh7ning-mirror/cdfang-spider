@@ -1,7 +1,7 @@
-import * as React from 'react';
+import React from 'react';
 import { Col, Row } from 'antd';
-import * as dayjs from 'dayjs';
-import * as _ from 'lodash';
+import dayjs from 'dayjs';
+import _ from 'lodash';
 
 import { AppContext } from '../../context/appContext';
 import CricleGraph from '../CricleGraph';
@@ -25,14 +25,14 @@ interface Istate {
   rankTitle: string;
 }
 
-const ChartPanel: React.FunctionComponent<Iprops> = props => {
+const ChartPanel: React.FunctionComponent<Iprops> = (props) => {
   const appState = useContext(AppContext);
   const { panelKey, data } = props;
   const initState = {
     rank: data,
     rankTitle: '',
     isChangeTab: false,
-    isOpen: false
+    isOpen: false,
   };
 
   if (panelKey !== appState.activityKey) {
@@ -41,7 +41,7 @@ const ChartPanel: React.FunctionComponent<Iprops> = props => {
 
   // 只会执行一次
   const [state, setState] = useState(initState);
-  const [prevData, setPrevData] = useState();
+  const [prevData, setPrevData] = useState<cdFang.IhouseData[]>();
 
   // 模拟 getDerivedStateFromProps https://reactjs.org/docs/hooks-faq.html#how-do-i-implement-getderivedstatefromprops
   if (data !== prevData) {
@@ -58,14 +58,14 @@ const ChartPanel: React.FunctionComponent<Iprops> = props => {
         rank: data,
         rankTitle: '',
         isChangeTab: false,
-        isOpen: false
+        isOpen: false,
       };
     }
     const selectMonth = origin.date;
     const selectMonthTitle = origin.item;
     const newRank = _.filter(
       data,
-      dataItem =>
+      (dataItem) =>
         dayjs(dataItem.beginTime) > dayjs(selectMonth) &&
         dayjs(dataItem.beginTime) < dayjs(selectMonth).endOf('month')
     );
@@ -74,7 +74,7 @@ const ChartPanel: React.FunctionComponent<Iprops> = props => {
       rank: newRank,
       rankTitle: selectMonthTitle,
       isChangeTab: false,
-      isOpen: true
+      isOpen: true,
     };
   }
 
@@ -90,7 +90,7 @@ const ChartPanel: React.FunctionComponent<Iprops> = props => {
       <Col span={9}>
         <CricleGraph
           data={data}
-          changeMonth={item => {
+          changeMonth={(item) => {
             // 由于 circle 组件使用 React.memo 在不渲染时，不能获取到最新的属性，这里使用局部变量来获取
             setState(changeMonth(item));
           }}

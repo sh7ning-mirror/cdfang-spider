@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { Card, Col, Row } from 'antd';
 import util, { IhouseInfo } from '../../utils/index';
 import { AppContext } from '../../context/appContext';
@@ -16,36 +16,34 @@ const StatisticCard: React.FunctionComponent = () => {
   const thisMonthInfo = util.getThisMonthInfo(allData);
   const thisQuarterInfo = util.getThisQuarterInfo(allData);
 
-  const renderCard = (info: IhouseInfo) => {
-    return (
-      <div>
-        <div className="statistic-card-text">
-          <span>{`${constants.BUILDER_NUMBER}：${info.buildNumber}`}</span>
-          <span
-            style={{
-              color: info.increaseBuildNumber
-                ? constants.RISE_COLOR
-                : constants.DECLINE_COLOR
-            }}
-          >
-            {info.increaseBuildNumberString}
-          </span>
-        </div>
-        <div className="statistic-card-text">
-          <span>{`${constants.HOUSE_NUMBER}：${info.houseNumber}`}</span>
-          <span
-            style={{
-              color: info.increaseHouseNumber
-                ? constants.RISE_COLOR
-                : constants.DECLINE_COLOR
-            }}
-          >
-            {info.increaseHouseNumberString}
-          </span>
-        </div>
+  const renderCard = (info: IhouseInfo) => (
+    <div>
+      <div className="statistic-card-text">
+        <span>{`${constants.BUILDER_NUMBER}：${info.buildNumber}`}</span>
+        <span
+          style={{
+            color: info.increaseBuildNumber
+              ? constants.RISE_COLOR
+              : constants.DECLINE_COLOR,
+          }}
+        >
+          {info.increaseBuildNumberString}
+        </span>
       </div>
-    );
-  };
+      <div className="statistic-card-text">
+        <span>{`${constants.HOUSE_NUMBER}：${info.houseNumber}`}</span>
+        <span
+          style={{
+            color: info.increaseHouseNumber
+              ? constants.RISE_COLOR
+              : constants.DECLINE_COLOR,
+          }}
+        >
+          {info.increaseHouseNumberString}
+        </span>
+      </div>
+    </div>
+  );
 
   return (
     <Row gutter={16}>

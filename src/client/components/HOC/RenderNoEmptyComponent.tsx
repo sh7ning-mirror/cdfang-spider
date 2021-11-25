@@ -1,5 +1,5 @@
 // 拒绝渲染属性为空的组件
-import * as React from 'react';
+import React from 'react';
 
 interface Iprops {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -7,15 +7,17 @@ interface Iprops {
 }
 
 function RenderNoEmptyComponent(
-  WrapperedComponent: Function,
+  WrapperedComponent: React.FunctionComponent,
   checkProps: string[]
 ): React.FunctionComponent {
   const newComponent: React.FunctionComponent = (props: Iprops) => {
-    let checkValue = props;
-    checkProps.forEach(item => {
-      checkValue = checkValue[item];
+    const hasEmpty = checkProps.some((propName) => {
+      if (Array.isArray(props[propName])) {
+        return props[propName].length === 0;
+      }
+      return !!props[propName];
     });
-    return checkValue != null ? <WrapperedComponent {...props} /> : <span />;
+    return hasEmpty ? <span /> : <WrapperedComponent {...props} />;
   };
   return newComponent;
 }

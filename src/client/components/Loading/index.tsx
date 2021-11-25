@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { Spin } from 'antd';
 import './styles.less';
 
@@ -9,13 +9,11 @@ interface Iprops {
 
 const Loading: React.FunctionComponent<Iprops> = ({
   height = '50px',
-  tip = ''
-}) => {
-  return (
-    <div className="common-loading" style={{ lineHeight: height, height }}>
-      <Spin tip={tip} />
-    </div>
-  );
-};
+  tip = '',
+}) => (
+  <div className="common-loading" style={{ lineHeight: height, height }}>
+    <Spin tip={tip} />
+  </div>
+);
 
 export default Loading;

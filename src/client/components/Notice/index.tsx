@@ -1,5 +1,6 @@
-import * as React from 'react';
-import { Icon, notification } from 'antd';
+import React from 'react';
+import { notification } from 'antd';
+import { SyncOutlined } from '@ant-design/icons';
 import gql from 'graphql-tag';
 import config from '../../config';
 import './styles.less';
@@ -7,7 +8,10 @@ import { AppContext, IappContext } from '../../context/appContext';
 
 const { useState, useContext } = React;
 
-function openNotification(setLoading: Function, appState: IappContext) {
+function openNotification(
+  setLoading: (...args: boolean[]) => void,
+  appState: IappContext
+) {
   setLoading(true);
   const { getGraphqlClient } = config;
 
@@ -28,13 +32,13 @@ function openNotification(setLoading: Function, appState: IappContext) {
             }
           }
         }
-      `
+      `,
     })
-    .then(result => {
+    .then((result) => {
       const data = result.data.spiderPageOne;
       notification.open({
         message: '消息提醒',
-        description: `成功更新数据${data.allLength}条，新数据${data.successArray.length}条。`
+        description: `成功更新数据${data.allLength}条，新数据${data.successArray.length}条。`,
       });
       setLoading(false);
       if (data.successArray.length > 0) {
@@ -48,8 +52,7 @@ const Notice: React.FunctionComponent = () => {
   const appState = useContext(AppContext);
   return (
     <span className={isLoading ? 'loading notice-icon' : 'notice-icon'}>
-      <Icon
-        type="sync"
+      <SyncOutlined
         onClick={() => {
           openNotification(setLoading, appState);
         }}

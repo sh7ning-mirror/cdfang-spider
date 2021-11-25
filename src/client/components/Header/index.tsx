@@ -1,5 +1,6 @@
-import * as React from 'react';
-import { Menu, Icon } from 'antd';
+import React from 'react';
+import { Menu } from 'antd';
+import { HomeOutlined, CalendarOutlined } from '@ant-design/icons';
 import { RouteComponentProps } from 'react-router';
 import { withRouter } from 'react-router-dom';
 import Notice from '../Notice';
@@ -12,7 +13,7 @@ const { useState, useEffect, useContext } = React;
 
 const Header: React.FunctionComponent<RouteComponentProps> = ({
   history,
-  location
+  location,
 }) => {
   const gotoGithub = () => {
     window.location.href = GITHUB_URL;
@@ -56,7 +57,14 @@ const Header: React.FunctionComponent<RouteComponentProps> = ({
       <div className="cdfang-header-item">
         <span className="cdfang-header-item-pv">{`累计查询：${pvs}次`}</span>
         <Notice />
-        <Icon type="github" onClick={gotoGithub} />
+        <iframe
+          src="https://ghbtns.com/github-btn.html?user=mengsixing&repo=cdfang-spider&type=star&count=true"
+          frameBorder="0"
+          scrolling="0"
+          width="102"
+          height="20"
+          title="GitHub"
+        />
       </div>
       <Menu
         theme="light"
@@ -66,19 +74,23 @@ const Header: React.FunctionComponent<RouteComponentProps> = ({
         style={{ lineHeight: '64px' }}
       >
         <Menu.Item key="home">
-          <Icon type="home" />
+          <HomeOutlined />
           首页
         </Menu.Item>
+        <Menu.Item key="2020">
+          <CalendarOutlined />
+          2020年
+        </Menu.Item>
         <Menu.Item key="2019">
-          <Icon type="calendar" />
+          <CalendarOutlined />
           2019年
         </Menu.Item>
         <Menu.Item key="2018">
-          <Icon type="calendar" />
+          <CalendarOutlined />
           2018年
         </Menu.Item>
         <Menu.Item key="2017">
-          <Icon type="calendar" />
+          <CalendarOutlined />
           2017年
         </Menu.Item>
       </Menu>

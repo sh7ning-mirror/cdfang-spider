@@ -1,6 +1,6 @@
-import * as React from 'react';
+import React from 'react';
 import { Card, Col, Row } from 'antd';
-import * as _ from 'lodash';
+import _ from 'lodash';
 import util from '../../utils';
 import { AppContext } from '../../context/appContext';
 import * as constants from '../../constants';
@@ -14,35 +14,32 @@ const StatisticCardPast: React.FunctionComponent = () => {
   const allInfo = util.getAllInfo(allData);
 
   // 年度房源
-  const maxHouse = _.maxBy(allData, house => {
-    return house.number;
-  }) as cdFang.IhouseData;
+  const maxHouse = _.maxBy(
+    allData,
+    (house) => house.number
+  ) as cdFang.IhouseData;
 
   // 年度楼盘
-  const dataByName = _.groupBy(allData, item => item.name);
+  const dataByName = _.groupBy(allData, (item) => item.name);
   const maxBuilderName =
-    _.maxBy(Object.keys(dataByName), item => {
-      return dataByName[item].length;
-    }) || '';
+    _.maxBy(Object.keys(dataByName), (item) => dataByName[item].length) || '';
 
   let maxBuildLength = 0;
   let maxBuild = 0;
   if (dataByName[maxBuilderName]) {
     maxBuildLength = dataByName[maxBuilderName].length;
-    maxBuild = _.sumBy(dataByName[maxBuilderName], item => item.number);
+    maxBuild = _.sumBy(dataByName[maxBuilderName], (item) => item.number);
   }
 
   // 年度区域
-  const dataByArea = _.groupBy(allData, item => item.area);
+  const dataByArea = _.groupBy(allData, (item) => item.area);
   const maxAreaName =
-    _.maxBy(Object.keys(dataByArea), item => {
-      return dataByArea[item].length;
-    }) || '';
+    _.maxBy(Object.keys(dataByArea), (item) => dataByArea[item].length) || '';
   let maxAreaLength = 0;
   let maxArea = 0;
   if (dataByArea[maxAreaName]) {
     maxAreaLength = dataByArea[maxAreaName].length;
-    maxArea = _.sumBy(dataByArea[maxAreaName], item => item.number);
+    maxArea = _.sumBy(dataByArea[maxAreaName], (item) => item.number);
   }
 
   return (
@@ -55,8 +52,9 @@ const StatisticCardPast: React.FunctionComponent = () => {
         >
           {RenderLoadingJSX(
             <div>
-              {`${constants.HOUSE_NUMBER}：${(maxHouse && maxHouse.number) ||
-                0}`}
+              {`${constants.HOUSE_NUMBER}：${
+                (maxHouse && maxHouse.number) || 0
+              }`}
               <br />
               {`${constants.AREA}：${(maxHouse && maxHouse.area) || '暂无'}`}
             </div>,

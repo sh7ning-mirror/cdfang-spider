@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import * as React from 'react';
+import React from 'react';
 import { Chart, Geom, Axis, Tooltip } from 'bizcharts';
 import RenderNoEmptyComponent from '../HOC/RenderNoEmptyComponent';
 import { RenderLoadingComponent } from '../HOC/RenderLoadingComponent';
@@ -11,7 +11,7 @@ interface Iarea {
   [yAxis: string]: any;
 }
 
-interface Iprops {
+export interface Iprops {
   data: Iarea[];
   title: string;
   xAxis: string;
@@ -24,7 +24,7 @@ const BasicColumnGraph: React.FunctionComponent<Iprops> = ({
   title,
   xAxis,
   yAxis,
-  desc
+  desc,
 }) => {
   let chartData: Iarea[] = [];
   if (desc) {

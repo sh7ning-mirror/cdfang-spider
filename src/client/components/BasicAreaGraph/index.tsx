@@ -1,7 +1,6 @@
-import * as React from 'react';
+import React from 'react';
 import { Chart, Geom, Axis, Tooltip, Legend } from 'bizcharts';
-// @ts-ignore
-import * as DataSet from '@antv/data-set';
+import DataSet from '@antv/data-set';
 import * as constants from '../../constants';
 import { RenderLoadingComponent } from '../HOC/RenderLoadingComponent';
 
@@ -14,25 +13,30 @@ interface IbasicAreaGraphData {
 export interface Iprops {
   title: string;
   data: IbasicAreaGraphData[];
+  fields?: string[];
 }
 
 // 基础面积图 https://bizcharts.net/products/bizCharts/demo/detail?id=area-basic&selectedKey=%E9%9D%A2%E7%A7%AF%E5%9B%BE
-const BasicAreaGraph: React.FunctionComponent<Iprops> = ({ data, title }) => {
+const BasicAreaGraph: React.FunctionComponent<Iprops> = ({
+  data,
+  title,
+  fields,
+}) => {
   const dv = new DataSet.View().source(data);
   dv.transform({
     type: 'fold',
-    fields: [title],
+    fields: fields || [title],
     key: 'type',
-    value: 'value'
+    value: 'value',
   });
   const scale = {
     value: {
-      alias: '数量'
+      alias: '数量',
     },
     month: {
       range: [0.01, 0.99],
-      tickCount: 9
-    }
+      tickCount: 9,
+    },
   };
   return (
     <Chart height={400} data={dv} scale={scale} forceFit>
